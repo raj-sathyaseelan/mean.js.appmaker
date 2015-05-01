@@ -18,3 +18,8 @@ body.ng-cloak
 {
 	display: block;
 }
+
+body {
+	background-color: #EEEEEE;
+}
+

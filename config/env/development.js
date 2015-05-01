@@ -21,8 +21,8 @@ module.exports = {
 		title: 'MEAN.JS - Development Environment'
 	},
 	facebook: {
-		clientID: process.env.FACEBOOK_ID || 'APP_ID',
-		clientSecret: process.env.FACEBOOK_SECRET || 'APP_SECRET',
+		clientID: process.env.FACEBOOK_ID || '1600586553520076',
+		clientSecret: process.env.FACEBOOK_SECRET || 'cb01c3914653e4c62d2c763fd671154f',
 		callbackURL: '/auth/facebook/callback'
 	},
 	twitter: {
