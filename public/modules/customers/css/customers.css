@@ -3,9 +3,12 @@
 	background-color: #EEEEEE;
 }
 
+.cust-prof-list{
+	font-size: 150px;
+	background-color: #FFFFF;
 
-.checkbox-left {
-	width: 10%;
-	text-align: left
 }
 
+.text-pink{
+	color: deeppink;
+}

@@ -1,16 +1,117 @@
 'use strict';
 
 // Customers controller
-angular.module('customers').controller('CustomersController', ['$scope', '$stateParams', '$location', 'Authentication', 'Customers',
-	function($scope, $stateParams, $location, Authentication, Customers) {
-		$scope.authentication = Authentication;
+var customersApp = angular.module('customers');
 
-		// Create new Customer
-		$scope.create = function() {
+customersApp.controller('CustomersController', ['$scope', '$stateParams', 'Authentication', 'Customers', '$modal', '$log',
+	
+	function($scope, $stateParams, Authentication, Customers, $modal, $log) {
+		this.authentication = Authentication;
+
+		//find a list of customers
+		this.customers = Customers.query();
+
+		//open a modal window to create a single customer record
+		this.modalCreate = function (size) {
+
+			var modalInstance = $modal.open({
+				templateUrl: 'modules/customers/views/create-customer.client.view.html',
+				controller: function ($scope, $modalInstance) { 
+
+					$scope.ok = function (validForm) {
+
+						if (validForm){
+							$modalInstance.close();	
+						} else {
+							alert('hi');
+						}
+
+					};
+
+					$scope.cancel = function () {
+						$modalInstance.dismiss('cancel');
+
+					//clear all updates made
+					//@TODO: 
+					};
+				},
+				size: size
+			});
+
+			modalInstance.result.then(function (selectedItem) {
+				$scope.selected = selectedItem;
+			}, function () {
+				$log.info('Modal dismissed at: ' + new Date());
+			});
+
+		};
+
+		//open a modal window to update a single customer record
+		this.modalUpdate = function (size, selectedCustomer) {
+
+			var modalInstance = $modal.open({
+				templateUrl: 'modules/customers/views/edit-customer.client.view.html',
+				controller: function ($scope, $modalInstance, customer) { 
+					$scope.customer = customer;
+
+					$scope.ok = function (validForm) {
+
+						if (validForm){
+							$modalInstance.close(customer);	
+						} 
+
+					};
+
+					$scope.cancel = function () {
+						$modalInstance.dismiss('cancel');
+
+					//clear all updates made
+				};
+			},
+			size: size,
+			resolve: {
+				customer: function () {
+					return selectedCustomer;
+				}
+			}
+		});
+
+		modalInstance.result.then(function (selectedItem) {
+				$scope.selected = selectedItem;
+		}, function () {
+			$log.info('Modal dismissed at: ' + new Date());
+		});
+		
+		};
+	}
+
+]);
+
+customersApp.directive('customerList', function() {
+	return {
+		restrict: 'E',
+		transclude: true,
+		templateUrl: 'modules/customers/views/customer-list-template.html',
+		link: function(scope, element, attr) {
+		}
+	};
+
+});
+
+customersApp.controller('CustomersCreateController', ['$scope', 'Authentication', 'Customers', '$location','$modal', '$log',
+	
+	function($scope, Customers, $modal, $log) {
+
+		this.create = function() {
+			
+			alert('Create Customers');
+
 			// Create new Customer object
-			var customer = new Customers ({
+			this.customer = function() {
+				
+				this.customer = new Customers ({
 				firstName: this.firstName,
-				lastNAme: this.lastNAme,
+				lastName: this.lastName,
 				suburb: this.suburb,
 				country: this.country,
 				industry: this.industry,
@@ -21,12 +122,13 @@ angular.module('customers').controller('CustomersController', ['$scope', '$state
 			});
 
 			// Redirect after save
-			customer.$save(function(response) {
-				$location.path('customers/' + response._id);
+			this.customer.$save(function(response) {
+				//$location.path('customers/' + response._id);
+
+				alert('saving');
 
 				// Clear form fields
-				$scope.firstName = '';
-				$scope.lastNAme = '';
+				$scope.lastName = '';
 				$scope.suburb = '';
 				$scope.country = '';
 				$scope.industry = '';
@@ -37,46 +139,29 @@ angular.module('customers').controller('CustomersController', ['$scope', '$state
 			}, function(errorResponse) {
 				$scope.error = errorResponse.data.message;
 			});
-		};
 
-		// Remove existing Customer
-		$scope.remove = function(customer) {
-			if ( customer ) { 
-				customer.$remove();
+			};
 
-				for (var i in $scope.customers) {
-					if ($scope.customers [i] === customer) {
-						$scope.customers.splice(i, 1);
-					}
-				}
-			} else {
-				$scope.customer.$remove(function() {
-					$location.path('customers');
-				});
-			}
 		};
+		
+	}
+
+]);
+
+customersApp.controller('CustomersUpdateController', ['$scope', '$location', 'Customers',
+	function($scope, Customers) {
 
 		// Update existing Customer
-		$scope.update = function() {
-			var customer = $scope.customer;
+		this.update = function(updatedCustomer) {
+			var customer = updatedCustomer;
 
 			customer.$update(function() {
-				$location.path('customers/' + customer._id);
+				//$location.path('customers/' + customer._id);
 			}, function(errorResponse) {
 				$scope.error = errorResponse.data.message;
 			});
 		};
 
-		// Find a list of Customers
-		$scope.find = function() {
-			$scope.customers = Customers.query();
-		};
-
-		// Find existing Customer
-		$scope.findOne = function() {
-			$scope.customer = Customers.get({ 
-				customerId: $stateParams.customerId
-			});
-		};
 	}
+
 ]);
