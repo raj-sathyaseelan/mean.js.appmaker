@@ -63,7 +63,8 @@ customersApp.controller('CustomersController', ['$scope', '$stateParams', 'Authe
 					};
 
 					$scope.cancel = function () {
-						$modalInstance.dismiss('cancel');
+						$modalInstance.dismiss('cancel'
+							);
 
 					//clear all updates made
 				};
@@ -98,20 +99,19 @@ customersApp.directive('customerList', function() {
 
 });
 
-customersApp.controller('CustomersCreateController', ['$scope', 'Authentication', 'Customers', '$location','$modal', '$log',
+
+// Customers Create controller
+customersApp.controller('CustomersCreateController', ['$scope', '$stateParams', '$location', 'Authentication', 'Customers',
 	
-	function($scope, Customers, $modal, $log) {
+	function($scope, $stateParams, $location, Authentication, Customers ) {
+		$scope.authentication = Authentication;
 
+		// Create new Customer
 		this.create = function() {
-			
-			alert('Create Customers');
-
 			// Create new Customer object
-			this.customer = function() {
-				
-				this.customer = new Customers ({
+			var customer = new Customers ({
 				firstName: this.firstName,
-				lastName: this.lastName,
+				surname: this.lastName,
 				suburb: this.suburb,
 				country: this.country,
 				industry: this.industry,
@@ -122,13 +122,13 @@ customersApp.controller('CustomersCreateController', ['$scope', 'Authentication'
 			});
 
 			// Redirect after save
-			this.customer.$save(function(response) {
+			customer.$save(function(response) {
 				//$location.path('customers/' + response._id);
-
-				alert('saving');
+				//$location.path('customers/');
 
 				// Clear form fields
-				$scope.lastName = '';
+				$scope.firstName = '';
+				$scope.surname = '';
 				$scope.suburb = '';
 				$scope.country = '';
 				$scope.industry = '';
@@ -139,13 +139,9 @@ customersApp.controller('CustomersCreateController', ['$scope', 'Authentication'
 			}, function(errorResponse) {
 				$scope.error = errorResponse.data.message;
 			});
-
-			};
-
 		};
-		
-	}
 
+	}
 ]);
 
 customersApp.controller('CustomersUpdateController', ['$scope', '$location', 'Customers',
