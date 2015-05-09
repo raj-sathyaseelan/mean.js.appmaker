@@ -13,12 +13,14 @@ angular.module('customers')
 				}
 			});
 		}
-	]);
+	])
 
 	.factory('Notify', ['$rootScope',
+		
 		function($rootScope) {
 
 			var notify = {};
+
 			notify.sendMsg = function(msg, data) {
 				data = data || {};
 				$rootScope.$emit(msg, data);
@@ -28,11 +30,13 @@ angular.module('customers')
 
 			notify.getMsg = function(msg, func, scope) {
 				var unbind = $rootScope.$on(msg, func);
-
+				
 				if ( scope ) {
-					scope.$on('destroy', unbind)
+					scope.$on('destroy', unbind);
 				}
 			};
 
+			return notify;
 		}
+
 	]);

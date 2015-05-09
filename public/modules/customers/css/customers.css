@@ -1,3 +1,11 @@
+.login-form-bg {
+	background-color: white;
+	border: 15px solid;
+	border-radius: 15px;
+	border-color: white;
+	margin-top: 50px;
+}
+
 .cust-profile {
 	font-size: 250px;
 	background-color: #EEEEEE;
@@ -5,7 +13,7 @@
 
 .cust-prof-list{
 	font-size: 150px;
-	background-color: #FFFFF;
+	background-color: #FFFFFF;
 
 }
 

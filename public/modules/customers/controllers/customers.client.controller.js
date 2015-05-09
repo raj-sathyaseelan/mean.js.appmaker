@@ -84,34 +84,61 @@ customersApp.controller('CustomersController', ['$scope', '$stateParams', 'Authe
 		});
 		
 		};
+
+		//Remove existing customer
+		this.remove = function( customer ) {
+
+			if ( customer ) {
+				customer.$remove();
+
+				for ( var i in this.customers ) {
+					if ( this.customers[i] === customer ){
+						this.customers.splice(i,1);
+					}
+				}
+			} else {
+				this.customer.$remove(function() {
+				});
+			}
+
+		};
+		
 	}
 
 ]);
 
-customersApp.directive('customerList', function() {
+customersApp.directive('customerList', ['Customers', 'Notify', function(Customers, Notify) {
 	return {
 		restrict: 'E',
 		transclude: true,
 		templateUrl: 'modules/customers/views/customer-list-template.html',
 		link: function(scope, element, attr) {
+
+			//when a new customer is added, update the customer list
+			Notify.getMsg('NewCustomer', function(event, data) {
+				//display a list of customers
+				scope.customersCtrl.customers = Customers.query();
+			});
 		}
 	};
 
-});
+}]);
 
 
 // Customers Create controller
-customersApp.controller('CustomersCreateController', ['$scope', '$stateParams', '$location', 'Authentication', 'Customers',
+customersApp.controller('CustomersCreateController', ['$scope', '$stateParams', '$location', 'Authentication', 'Customers','Notify',
 	
-	function($scope, $stateParams, $location, Authentication, Customers ) {
+	function($scope, $stateParams, $location, Authentication, Customers, Notify ) {
+		
 		$scope.authentication = Authentication;
 
 		// Create new Customer
-		this.create = function() {
+		this.createCustomer = function() {
+			
 			// Create new Customer object
 			var customer = new Customers ({
 				firstName: this.firstName,
-				surname: this.lastName,
+				lastName: this.lastName,
 				suburb: this.suburb,
 				country: this.country,
 				industry: this.industry,
@@ -124,18 +151,21 @@ customersApp.controller('CustomersCreateController', ['$scope', '$stateParams', 
 			// Redirect after save
 			customer.$save(function(response) {
 				//$location.path('customers/' + response._id);
-				//$location.path('customers/');
+				//$location.path('customers/');				
 
 				// Clear form fields
-				$scope.firstName = '';
-				$scope.surname = '';
-				$scope.suburb = '';
-				$scope.country = '';
-				$scope.industry = '';
-				$scope.email = '';
-				$scope.phone = '';
-				$scope.referred = '';
-				$scope.channel = '';
+				// this.firstName = '';
+				// this.surname = '';
+				// this.suburb = '';
+				// this.country = '';
+				// this.industry = '';
+				// this.email = '';
+				// this.phone = '';
+				// this.referred = '';
+				// this.channel = '';
+
+				Notify.sendMsg('NewCustomer', {'id': response._id});
+
 			}, function(errorResponse) {
 				$scope.error = errorResponse.data.message;
 			});
