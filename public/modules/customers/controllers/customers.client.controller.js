@@ -33,7 +33,7 @@ customersApp.controller('CustomersController', ['$scope', '$stateParams', 'Authe
 						if (validForm){
 							$modalInstance.close();	
 						} else {
-							alert('hi');
+							
 						}
 
 					};
@@ -168,8 +168,6 @@ customersApp.controller('CustomersCreateController', ['$scope', '$stateParams', 
 				referred: this.referred,
 				channel: this.channel
 			});
-
-			alert(customer.channel);
 
 			// Redirect after save
 			customer.$save(function(response) {
