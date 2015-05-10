@@ -32,8 +32,6 @@ customersApp.controller('CustomersController', ['$scope', '$stateParams', 'Authe
 
 						if (validForm){
 							$modalInstance.close();	
-						} else {
-							
 						}
 
 					};
