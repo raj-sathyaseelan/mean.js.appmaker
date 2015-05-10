@@ -8,7 +8,15 @@ module.exports = {
 			pass: 'admin'
 		}
 
-		//mongodb://<dbuser>:<dbpassword>@ds031681.mongolab.com:31681/appmaker
+		
+	},
+
+	db: {
+		uri: 'mongodb://ds031681.mongolab.com:31681/appmaker',
+		options: {
+			user: 'appmakeradmin',
+			pass: 'admin'
+		}
 	},
 	log: {
 		// Can specify one of 'combined', 'common', 'dev', 'short', 'tiny'
