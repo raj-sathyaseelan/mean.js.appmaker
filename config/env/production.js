@@ -2,7 +2,7 @@
 
 module.exports = {
 	db: {
-		uri: process.env.MONGOHQ_URL || process.env.MONGOLAB_URI || 'mongodb://' + (process.env.DB_1_PORT_27017_TCP_ADDR || '@ds031681.mongolab.com:31681') + '/appmaker',
+		uri: process.env.MONGOHQ_URL || process.env.MONGOLAB_URI || 'mongodb://' + (process.env.DB_1_PORT_27017_TCP_ADDR || 'ds031681.mongolab.com:31681') + '/appmaker',
 		options: {
 			user: 'appmakeradmin',
 			pass: 'admin'
