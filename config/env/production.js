@@ -2,11 +2,13 @@
 
 module.exports = {
 	db: {
-		uri: process.env.MONGOHQ_URL || process.env.MONGOLAB_URI || 'mongodb://' + (process.env.DB_1_PORT_27017_TCP_ADDR || 'localhost') + '/mean',
+		uri: process.env.MONGOHQ_URL || process.env.MONGOLAB_URI || 'mongodb://' + (process.env.DB_1_PORT_27017_TCP_ADDR || '@ds031681.mongolab.com:31681') + '/appmaker',
 		options: {
-			user: '',
-			pass: ''
+			user: 'appmakeradmin',
+			pass: 'admin'
 		}
+
+		//mongodb://<dbuser>:<dbpassword>@ds031681.mongolab.com:31681/appmaker
 	},
 	log: {
 		// Can specify one of 'combined', 'common', 'dev', 'short', 'tiny'

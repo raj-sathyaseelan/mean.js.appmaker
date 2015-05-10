@@ -20,3 +20,12 @@
 .text-pink{
 	color: deeppink;
 }
+
+.extra-space{
+	padding-bottom: 15px;
+	padding-top: 15px:;
+}
+
+.input[type="radio"], input[type="checkbox"] {
+	margin: 0px 0 0 !important;
+} 

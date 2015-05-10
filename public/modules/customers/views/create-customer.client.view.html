@@ -88,10 +88,13 @@
 
                     <div class="form-group">
                         <label class="control-label" for="channel">Channel</label>
+
                         <div class"controls">
-                            <input type="text" data-ng-model="customerCtrl.channel" id="channel" class="form-control">
+                            <select data-ng-model="customerCtrl.channel" id="channel" class="form-control" ng-options="channelItem for channelItem in channelOptions">
+                                <!--<option value="">{{customer.channel.item}}</option>-->
+                            </select>
                         </div>
-                </div>
+                    </div>
                 </div>
 
 

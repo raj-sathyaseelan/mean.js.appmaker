@@ -48,6 +48,10 @@ var CustomerSchema = new Schema({
 	referred: {
 		type: Boolean
 	},
+	channel: {
+		type: String,
+		default: '',
+	},
 	created: {
 		type: Date,
 		default: Date.now

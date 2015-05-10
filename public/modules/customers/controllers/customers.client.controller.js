@@ -2,6 +2,14 @@
 
 // Customers controller
 var customersApp = angular.module('customers');
+var	channelOptions = [
+			'Facebook',
+			'Twitter',
+			'LinkedIn',
+			'Google'
+		];
+
+customersApp.value('channelOptions', channelOptions);
 
 customersApp.controller('CustomersController', ['$scope', '$stateParams', 'Authentication', 'Customers', '$modal', '$log',
 	
@@ -10,6 +18,8 @@ customersApp.controller('CustomersController', ['$scope', '$stateParams', 'Authe
 
 		//find a list of customers
 		this.customers = Customers.query();
+
+		$scope.channelOptions = channelOptions;
 
 		//open a modal window to create a single customer record
 		this.modalCreate = function (size) {
@@ -49,6 +59,7 @@ customersApp.controller('CustomersController', ['$scope', '$stateParams', 'Authe
 		//open a modal window to update a single customer record
 		this.modalUpdate = function (size, selectedCustomer) {
 
+
 			var modalInstance = $modal.open({
 				templateUrl: 'modules/customers/views/edit-customer.client.view.html',
 				controller: function ($scope, $modalInstance, customer) { 
@@ -74,6 +85,7 @@ customersApp.controller('CustomersController', ['$scope', '$stateParams', 'Authe
 				customer: function () {
 					return selectedCustomer;
 				}
+
 			}
 		});
 
@@ -132,6 +144,15 @@ customersApp.controller('CustomersCreateController', ['$scope', '$stateParams', 
 		
 		$scope.authentication = Authentication;
 
+		// $scope.channelOptions = [
+		// 	{id: 1, item: 'Facebook'},
+		// 	{id: 2, item: 'Twitter'},
+		// 	{id: 3, item: 'LinkedIn'},
+		// 	{id: 4, item: 'Google'}
+		// ];
+
+		$scope.channelOptions = channelOptions;
+
 		// Create new Customer
 		this.createCustomer = function() {
 			
@@ -147,6 +168,8 @@ customersApp.controller('CustomersCreateController', ['$scope', '$stateParams', 
 				referred: this.referred,
 				channel: this.channel
 			});
+
+			alert(customer.channel);
 
 			// Redirect after save
 			customer.$save(function(response) {
@@ -175,11 +198,19 @@ customersApp.controller('CustomersCreateController', ['$scope', '$stateParams', 
 ]);
 
 customersApp.controller('CustomersUpdateController', ['$scope', '$location', 'Customers',
+	
 	function($scope, Customers) {
+
+		$scope.channelOptions = channelOptions;
 
 		// Update existing Customer
 		this.update = function(updatedCustomer) {
 			var customer = updatedCustomer;
+
+			//customer.channel = updatedCustomer.channel.item;
+
+			//alert(customer.channel);
+			//alert(updatedCustomer.firstName);
 
 			customer.$update(function() {
 				//$location.path('customers/' + customer._id);
